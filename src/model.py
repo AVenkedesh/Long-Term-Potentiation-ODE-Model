@@ -72,3 +72,8 @@ class Neuron:
     def weak_stimulus(self, i, s, e):
         dendrite = self.dendrites[i]
         dendrite.stimulate(s,e)
+    
+    def strong_stimulus(self, i, s, e,P):
+        dendrite = self.dendrites[i]
+        dendrite.stimulate(s,e)
+        self.soma.add_product(P)
