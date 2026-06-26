@@ -56,3 +56,8 @@ class Neuron:
     def pack(self):
         dendrites_vec = [dendrite.get_state() for dendrite in self.dendrites]
         return np.concatenate(dendrites_vec + [[self.soma.P]])
+
+    def unpack(self, y):
+        for i, dendrite in enumerate(self.dendrites):
+            dendrite.set_state(y[3*i : 3*i + 3])
+        self.soma.P = y[-1]
