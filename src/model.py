@@ -23,6 +23,12 @@ class Dendrite:
     
     def strength(self, s_base):
         return s_base + self.E + self.L
+    
+    def get_state(self):
+        return np.array([self.T, self.E, self.L])
+    
+    def set_state(self, new_state):
+        self.T, self.E, self.L = new_state
 
 class Soma:
     """
