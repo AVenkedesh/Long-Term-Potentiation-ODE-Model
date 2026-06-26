@@ -68,3 +68,7 @@ class Neuron:
         derivatives = [dendrite.derivatives(P) for dendrite in self.dendrites]
         dP = self.soma.derivatives()
         return np.concatenate(derivatives + [[dP]])
+    
+    def weak_stimulus(self, i, s, e):
+        dendrite = self.dendrites[i]
+        dendrite.stimulate(s,e)
