@@ -37,3 +37,12 @@ class Soma:
     
     def add_product(self, P):
         self.P += P
+
+class Neuron:
+    """
+    Brings everything together.
+    """
+    def __init__(self, dendrites, soma, s_base):
+        self.dendrites = dendrites
+        self.soma = soma
+        self.s_base = s_base
