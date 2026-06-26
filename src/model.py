@@ -61,3 +61,10 @@ class Neuron:
         for i, dendrite in enumerate(self.dendrites):
             dendrite.set_state(y[3*i : 3*i + 3])
         self.soma.P = y[-1]
+
+    def rhs(self, t, y):
+        self.unpack(y)
+        P = self.soma.P
+        derivatives = [dendrite.derivatives(P) for dendrite in self.dendrites]
+        dP = self.soma.derivatives()
+        return np.concatenate(derivatives + [[dP]])
