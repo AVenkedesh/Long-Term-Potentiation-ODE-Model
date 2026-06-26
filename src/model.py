@@ -20,6 +20,9 @@ class Dendrite:
 
     def derivatives(self, P):
         return np.array([-self.T/self.tau_T, -self.E/self.tau_E, self.beta*self.T*P])
+    
+    def strength(self, s_base):
+        return s_base + self.E + self.L
 
 class Soma:
     """
