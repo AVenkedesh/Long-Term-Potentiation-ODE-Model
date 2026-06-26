@@ -12,9 +12,9 @@ class Pathway:
         self.tau_E = tau_E
         self.beta = beta
 
-    def stimulatie(self, s, e):
+    def stimulate(self, s, e):
         self.T += s
         self.E += e
 
     def derivatives(self, P):
-        return [-self.T/self.tau_T, -self.E/self.tau_E, self.beat*self.T*P]
+        return np.array([-self.T/self.tau_T, -self.E/self.tau_E, self.beat*self.T*P])
