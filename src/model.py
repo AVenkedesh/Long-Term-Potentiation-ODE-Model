@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.integrate import solve_ivp
 
 class Dendrite:
     """
@@ -77,3 +78,26 @@ class Neuron:
         dendrite = self.dendrites[i]
         dendrite.stimulate(s,e)
         self.soma.add_product(P)
+
+    def run(self, events, end, max_step=1.0):
+        boundaries = [e["time"] for e in events] + [end]
+        ts, ys = [], []
+
+        for k, event in enumerate(events):
+            if event["type"] == "strong":
+                self.strong_stimulus(event["i"], event["s"], event["e"], event["P"])
+            else:
+                self.weak_stimulus(event["i"], event["s"], event["e"])
+            
+            y0 = self.pack()
+
+            solution = solve_ivp(self.rhs, (boundaries[k], boundaries[k+1]), y0, max_step=max_step, dense_output=False)
+
+            self.unpack(solution.y[:, -1])
+
+            if k == 0:
+                ts.append(solution.t); ys.append(solution.y)
+            else:
+                ts.append(solution.t[1:]); ys.append(solution.y[:, 1:])
+
+        return np.concatenate(ts), np.concatenate(ys, axis=1)
