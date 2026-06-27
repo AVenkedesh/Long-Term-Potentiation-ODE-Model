@@ -101,3 +101,11 @@ class Neuron:
                 ts.append(solution.t[1:]); ys.append(solution.y[:, 1:])
 
         return np.concatenate(ts), np.concatenate(ys, axis=1)
+    
+    def strengths(self, y):
+        curves = []
+        for i in range(len(self.dendrites)):
+            E = y[3*i+1]
+            L = y[3*i+2]
+            curves.append(self.s_base, E, L)
+        return curves
