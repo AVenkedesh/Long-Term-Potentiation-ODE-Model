@@ -107,5 +107,5 @@ class Neuron:
         for i in range(len(self.dendrites)):
             E = y[3*i+1]
             L = y[3*i+2]
-            curves.append(self.s_base, E, L)
+            curves.append(self.s_base + E + L)
         return curves
