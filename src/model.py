@@ -8,27 +8,46 @@ class Dendrite:
     here.
     """
     def __init__(self, tau_T, tau_E, beta):
-        self.T = 0.0
-        self.E = 0.0
-        self.L = 0.0
-        self.tau_T = tau_T
-        self.tau_E = tau_E
-        self.beta = beta
+        self.T = 0.0 # tags in the dendrite in terms of arbitrary magnitude
+        self.E = 0.0 # early-LTP in the dendrite in terms of arbitrary magnitude
+        self.L = 0.0 # late-LTP in the dendrite in terms of arbitrary magnitude
+        self.tau_T = tau_T # the timeconstant of tag decay in the dendrite
+        self.tau_E = tau_E # the time constant of early-LTP decay in the dendrite
+        self.beta = beta # capture rate constant
 
     def stimulate(self, s, e):
+        """
+        Stimulates the neuron. Each stimulation increases the magnitude of 
+        T (tags) and E (early-LTP).
+        """
         self.T += s
         self.E += e
 
     def derivatives(self, P):
+        """
+        Returns an array of derivatives for tag depletion, early-LTP depletion
+        and instantaneous rate of late-LTP formation
+        """
         return np.array([-self.T/self.tau_T, -self.E/self.tau_E, self.beta*self.T*P])
     
     def strength(self, s_base):
+        """
+        Computes the strength of the dendrite/synapses as a function of
+        base strength, early-LTP and late-LTP.
+        """
         return s_base + self.E + self.L
     
     def get_state(self):
+        """
+        Returns the current state of the dendrite with information on
+        tags, early-LTP and late-LTP.
+        """
         return np.array([self.T, self.E, self.L])
     
     def set_state(self, new_state):
+        """
+        Sets a new state for the dendrite.
+        """
         self.T, self.E, self.L = new_state
 
 class Soma:
